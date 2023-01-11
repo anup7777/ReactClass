@@ -38,51 +38,67 @@
 //   //   setCounter(counter+1)
 //   // }
 
+import { useState } from "react";
+// import axios from "axios";
 
+function App(props) {
+  const [newNote, setNewNote] = useState("add a note here");
+  const [notes, setNotes] = useState(props.notes);
+  const [showAll, setshowAll] = useState(true)
 
+  const notesToShow = showAll 
+  ? notes
+  : notes.filter(n => n.important == true) 
 
+  // useEffect(() => {
+  //   axios.get('http://localhost:3001/notes')
+  //   .then((response) => {
+  //     console.log(response)
+  //     setNotes(response.data)
+  //   })
+  // }, [])
 
-import { useState , useEffect} from "react";
-import axios from "axios";
-
-function App() {
-
-  const [newNote, setNewNote] = useState('add a note here')
-  const [notes, setNotes] = useState([])
-
-  useEffect(() => {
-    axios.get('http://localhost:3001/notes')
-    .then((response) => {
-      console.log(response)
-      setNotes(response.data)
-    })
-  }, [])
-
-  
   const handleInputChange = (event) => {
-    console.log(event.target.value)
-    setNewNote(event.target.value)
-  }
+    console.log(event.target.value);
+    setNewNote(event.target.value);
+  };
+
   const handleAdd = (event) => {
-    event.preventDefault()
-    alert('Testing ..')
-  }
+    event.preventDefault();
+    // console.log(event.target)
+    // alert('Testing ..')
+
+    // Create a new note
+    const note = {
+      id: notes.length + 1,
+      content: newNote,
+      date: new Date().toString(),
+      important: Math.random() < 0.5,
+    };
+
+    if (newNote != "") setNewNote(notes.concat(note));
+    setNewNote("");
+  };
 
   return (
     <>
       <h2>Notes</h2>
-      {/* <ul>
-        {notes.map(note=>
-        <li key={note.id}>
-        {note.content}
-        </li>)}
-      </ul> */}
+      <button onClick={() => setshowAll(!showAll)}>toggle</button>
+
+      {
+        <ul>
+          {notesToShow.map((note) => (
+            <li key={note.id}>
+              <p>{note.content}</p>
+              <p>{note.data}</p>
+            </li>
+          ))}
+        </ul>
+      }
 
       <form>
-        <input value={newNote} onChange={handleInputChange}/>
-        <button onClick={handleAdd}>
-          add
-        </button>
+        <input value={newNote} onChange={handleInputChange} />
+        <button onClick={handleAdd}>add</button>
       </form>
     </>
   );

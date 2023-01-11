@@ -11,8 +11,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import Feedback_app from "./components/Feedback";
+// import reportWebVitals from "./reportWebVitals";
+// import Feedback_app from "./components/Feedback";
 
 const notes = [
   {
@@ -41,6 +41,3 @@ root.render(
     <App notes={notes} />
   </>
 );
-
-
-
